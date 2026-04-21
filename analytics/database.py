@@ -13,5 +13,4 @@ client = MongoClient(MONGO_URI)
 # Note: If your database in MongoDB Atlas is named something else 
 # (like "retailiq"), change "test" to that name.
 db = client["test"] 
-
 orders_collection = db["orders"]
