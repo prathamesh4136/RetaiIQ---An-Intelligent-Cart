@@ -38,8 +38,9 @@ export default function AnalyticsPage() {
 
   const [timeframe, setTimeframe] = useState("monthly");
 
+  // 🚀 UPDATED: Now checks for Vercel Environment Variables first, falls back to local for testing!
   const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
-  const ML_API_URL = "http://127.0.0.1:8000";
+  const ML_API_URL = process.env.NEXT_PUBLIC_ML_API_URL || "http://127.0.0.1:8000";
 
   useEffect(() => {
     const auth = getAuth(app);
