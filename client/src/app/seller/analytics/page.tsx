@@ -20,7 +20,7 @@ import {
 } from "lucide-react";
 
 // IMPORTANT: Ensure this path is correct or use the direct file if it's in public/
-import bgImage from "../assets/bg-cart.png"; 
+
 
 // Animation Variants
 const fadeInUp = {
@@ -139,13 +139,13 @@ export default function HomePage() {
       <section className="relative h-screen w-full flex items-center justify-center overflow-hidden">
         {/* Background Image Container */}
         <div className="absolute inset-0 z-0">
-          <Image
-            src={bgImage}
+        <Image
+            src="/bg-cart.png"
             alt="Retail Background"
             fill
             priority
             className="object-cover object-right md:object-center opacity-50 brightness-[0.7] contrast-125" 
-          />
+          / >
           {/* FADES: This makes the image blend into the black background */}
           <div className="absolute inset-0 bg-gradient-to-r from-[#050505] via-[#050505]/60 to-transparent" />
           <div className="absolute inset-0 bg-gradient-to-b from-[#050505]/40 via-transparent to-[#050505]" />
