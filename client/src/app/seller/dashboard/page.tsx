@@ -21,7 +21,7 @@ import {
   LayoutDashboard,
   ListOrdered,
   Settings,
-  Tag, // 🆕 Added Tag icon for Coupons
+  Tag, 
 } from "lucide-react";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { QRCodeCanvas } from "qrcode.react";
@@ -36,7 +36,6 @@ export default function SellerDashboard() {
   const [activeRoute, setActiveRoute] = useState("dashboard");
   const [showQRModal, setShowQRModal] = useState(false);
 
-  // 🆕 Modal States
   const [showAddProduct, setShowAddProduct] = useState(false);
   const [showEditProduct, setShowEditProduct] = useState(false);
 
@@ -44,15 +43,16 @@ export default function SellerDashboard() {
     name: "", price: "", description: "", category: "", stock: "", image: null as File | null,
   });
 
-  // 🆕 Edit Product State
   const [editingProduct, setEditingProduct] = useState<any>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
 
-  // 🆕 Coupon States
   const [couponCode, setCouponCode] = useState("");
   const [discountPercent, setDiscountPercent] = useState("");
 
   const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+  
+  // 🚀 NEW: This safely gets your exact domain (localhost or vercel.app) automatically!
+  const frontendUrl = typeof window !== "undefined" ? window.location.origin : "";
 
   const routes = [
     { name: "Dashboard", icon: LayoutDashboard, id: "dashboard" },
@@ -114,7 +114,6 @@ export default function SellerDashboard() {
     }
   };
 
-  // 🆕 Updated Image handler to support both Add and Edit modals
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>, isEdit: boolean = false) => {
     const file = e.target.files?.[0];
     if (file) {
@@ -153,7 +152,6 @@ export default function SellerDashboard() {
     }
   };
 
-  // 🆕 Handle Full Product Edit
   const handleUpdateProduct = async () => {
     try {
       const token = await user.getIdToken();
@@ -201,7 +199,6 @@ export default function SellerDashboard() {
     }
   };
 
-  // 🆕 Handle Adding a Coupon
   const handleAddCoupon = async () => {
     try {
       const token = await user.getIdToken();
@@ -318,7 +315,7 @@ export default function SellerDashboard() {
               </div>
             )}
 
-            {/* 🆕 COUPONS SECTION */}
+            {/* COUPONS SECTION */}
             <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-200 mb-8">
               <h2 className="text-xl font-semibold text-gray-900 flex items-center gap-2 mb-4">
                 <Tag className="w-6 h-6 text-orange-600" /> Marketing & Coupons
@@ -408,7 +405,6 @@ export default function SellerDashboard() {
                           <span className="text-gray-700 text-sm">
                             Stock: <span className="font-semibold">{p.stock}</span>
                           </span>
-                          {/* 🆕 OPENS FULL EDIT MODAL */}
                           <button
                             onClick={() => {
                               setEditingProduct({ ...p, newImage: null });
@@ -449,14 +445,14 @@ export default function SellerDashboard() {
       </main>
       </div>
 
-      {/* QR Modal (Unchanged) */}
+      {/* 🚀 UPDATED QR Modal with the fix! */}
       {showQRModal && shop && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-2xl p-6 max-w-md w-full">
             <div className="text-center">
               <QRCodeCanvas
                 id="shopQR"
-                value={`${process.env.NEXT_PUBLIC_FRONTEND_URL}/shop/${shop._id}`}
+                value={`${frontendUrl}/shop/${shop._id}`}
                 size={256}
                 includeMargin
               />
@@ -466,12 +462,12 @@ export default function SellerDashboard() {
                   <input
                     type="text"
                     readOnly
-                    value={`${process.env.NEXT_PUBLIC_FRONTEND_URL}/shop/${shop._id}`}
+                    value={`${frontendUrl}/shop/${shop._id}`}
                     className="flex-1 bg-transparent text-gray-700 text-sm text-center"
                   />
                   <button
                     onClick={() => {
-                      navigator.clipboard.writeText(`${process.env.NEXT_PUBLIC_FRONTEND_URL}/shop/${shop._id}`);
+                      navigator.clipboard.writeText(`${frontendUrl}/shop/${shop._id}`);
                       alert("Link copied!");
                     }}
                     className="px-3 py-1 bg-orange-600 hover:bg-orange-700 rounded-lg text-sm text-white"
@@ -505,7 +501,7 @@ export default function SellerDashboard() {
         </div>
       )}
 
-      {/* 🆕 Shared Form Modal for Adding AND Editing Products */}
+      {/* Shared Form Modal for Adding AND Editing Products */}
       {(showAddProduct || showEditProduct) && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4 overflow-y-auto">
           <div className="bg-white rounded-2xl w-full max-w-2xl my-8">
@@ -630,6 +626,5 @@ export default function SellerDashboard() {
         </div>
       )}
     </div>
-    
   );
 }
