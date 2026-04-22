@@ -17,22 +17,31 @@ connectDB();
 
 const app = express();
 app.use(express.json());
-app.use(cors({ origin: "http://localhost:3000", credentials: true }));
+
+// 🚀 FIX: Allow both local testing and Vercel live domain
+app.use(cors({ 
+  origin: [
+    "http://localhost:3000",
+    "https://retailiq-an-intelligent-cart.vercel.app"
+  ], 
+  credentials: true 
+}));
+
 app.use(morgan("dev"));
 
-//  Root route
+//  Root route
 app.get("/", (req, res) => res.send("RetailIQ backend running "));
 
-//  Authentication (public)
+//  Authentication (public)
 app.use("/api/auth", authRoutes);
 
-//  Protected routes
+//  Protected routes
 app.use("/api/users", userRoutes);
 app.use("/api/seller", sellerRoutes);
 app.use("/api/shops", shopRoutes);
 app.use("/api/shops", orderRoutes);
 
-//  Static uploads
+//  Static uploads
 app.use("/uploads", express.static(path.join(process.cwd(), "uploads")));
 
 //product routes
