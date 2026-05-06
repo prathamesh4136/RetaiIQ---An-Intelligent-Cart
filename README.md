@@ -270,7 +270,7 @@ uvicorn main:app --reload --port 8000
 
 ## 👨‍💻 Author
 
-Ayush Vibhute  
+Prathamesh Gaikwad
 B.Tech CSE (Data Science)
 
 ---
